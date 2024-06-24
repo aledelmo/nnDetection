@@ -30,25 +30,25 @@ keywords = [
     'nnunet'
 ]
 dependencies = [
-    "pytorch_lightning",
-    "batchgenerators",
+    "pytorch_lightning<=1.4.2",
+    "batchgenerators>=0.24",
     "scipy",
     "scikit-learn",
-    "scikit-image",
-    "pandas",
-    "PyYAML",
+    "scikit-image>=0.14",
+    "pandas>=0.8.1",
+    "PyYAML>=5.1",
     "nevergrad",
     "dicom2nifti",
     "medpy",
-    "SimpleITK",
+    "SimpleITK<2.1.0",
     "tqdm",
     "loguru",
-    "hydra-core",
-    "mlflow",
+    "hydra-core>=1.1.0",
+    "mlflow",ß
     "GitPython",
     "matplotlib",
     "seaborn",
-    "torchmetrics"
+    "torchmetrics<=0.7.3"
 ]
 
 [project.urls]
