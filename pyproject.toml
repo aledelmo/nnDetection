@@ -30,6 +30,7 @@ keywords = [
     'nnunet'
 ]
 dependencies = [
+    "nnunet==1.7.1"
     "pytorch_lightning==1.4.2",
     "batchgenerators==0.25",
     "scipy",
