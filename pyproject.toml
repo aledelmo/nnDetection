@@ -41,7 +41,7 @@ dependencies = [
     "nevergrad",
     "dicom2nifti",
     "medpy",
-    "SimpleITK==2.2.1",
+    "SimpleITK>=2.2.1",
     "tqdm",
     "loguru",
     "hydra-core>=1.1.0",
