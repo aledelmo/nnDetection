@@ -1,0 +1,89 @@
+[project]
+name = "nndet"
+version = "2.5"
+requires-python = ">=3.9"
+description = "nnU-Net is a framework for out-of-the box image segmentation."
+readme = "readme.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Fabian Isensee", email = "f.isensee@dkfz-heidelberg.de"},
+    { name = "Helmholtz Imaging Applied Computer Vision Lab" }
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Healthcare Industry",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+keywords = [
+    'deep learning',
+    'image segmentation',
+    'semantic segmentation',
+    'medical image analysis',
+    'medical image segmentation',
+    'nnU-Net',
+    'nnunet'
+]
+dependencies = [
+    "pytorch_lightning<=1.4.2"
+    "batchgenerators>=0.24"
+    "nnunet=1.7.1"
+    "scipy"
+    "scikit-learn"
+    "scikit-image>=0.14"
+    "pandas>=0.8.1"
+    "PyYAML=5.1"
+    "nevergrad"
+    "dicom2nifti"
+    "medpy"
+    "SimpleITK<2.1.0"
+    "tqdm"
+    "loguru"
+    "hydra-core>=1.1.0"
+    "mlflow"
+    "GitPython"
+    "matplotlib"
+    "seaborn"
+    "torchmetrics=0.7.3"
+]
+
+[project.urls]
+homepage = "https://github.com/aledelmo/nnDetection"
+repository = "https://github.com/aledelmo/nnDetection"
+
+[project.scripts]
+nndet_example = "scripts.generate_example:main"
+nndet_prep = "scripts.preprocess:main"
+nndet_cls2fg = "scripts.convert_cls2fg:main"
+nndet_seg2det = "scripts.convert_seg2det:main"
+nndet_train = "scripts.train:train"
+nndet_sweep = "scripts.train:sweep"
+nndet_eval = "scripts.train:evaluate"
+nndet_predict = "scripts.predict:main"
+nndet_consolidate = "scripts.consolidate:main"
+nndet_boxes2nii = "scripts.utils:boxes2nii"
+nndet_seg2nii = "scripts.utils:seg2nii"
+nndet_unpack = "scripts.utils:unpack"
+nndet_env = "scripts.utils:env"
+nndet_searchpath = "scripts.utils:hydra_searchpath"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "ruff",
+    "pre-commit"
+]
+
+[build-system]
+requires = ["setuptools>=67.8.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.codespell]
+skip = '.git,*.pdf,*.svg'
+#
+# ignore-words-list = ''
