@@ -20,7 +20,7 @@ from nndet.arch.decoder.base import DecoderType
 from nndet.arch.heads.segmenter import SegmenterType
 from nndet.arch.heads.comb import HeadType
 from nndet.core.boxes.anchors import AnchorGeneratorType
-
+from monai.data.box_utils import batched_nms
 
 class BaseRetinaNet(AbstractModel):
     def __init__(self,
@@ -372,7 +372,7 @@ class BaseRetinaNet(AbstractModel):
             keep = box_utils.remove_small_boxes(boxes, min_size=self.remove_small_boxes)
             boxes, probs, labels = boxes[keep], probs[keep], labels[keep]
 
-        keep = box_utils.batched_nms(boxes, probs, labels, self.nms_thresh)
+        keep = batched_nms(boxes, probs, labels, self.nms_thresh)
         
         if self.detections_per_img is not None:
             keep = keep[:self.detections_per_img]
