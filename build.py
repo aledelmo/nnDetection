@@ -1,3 +1,7 @@
+import torch
+from torch.utils.cpp_extension import BuildExtension, CppExtension, CUDAExtension, CUDA_HOME
+
+
 def build():
 
     print("Build csrc")
@@ -19,23 +23,22 @@ def build():
     define_macros = []
     extra_compile_args = {"cxx": []}
 
-    if (torch.cuda.is_available() and CUDA_HOME is not None) or os.getenv('FORCE_CUDA', '0') == '1':
-        print("Adding CUDA csrc to build")
-        print("CUDA ARCH {}".format(os.getenv("TORCH_CUDA_ARCH_LIST")))
-        extension = CUDAExtension
-        sources += source_cuda
-        define_macros += [('WITH_CUDA', None)]
-        extra_compile_args["nvcc"] = [
-            "-DCUDA_HAS_FP16=1",
-            "-D__CUDA_NO_HALF_OPERATORS__",
-            "-D__CUDA_NO_HALF_CONVERSIONS__",
-            "-D__CUDA_NO_HALF2_OPERATORS__",
-        ]
-        
-        # It's better if pytorch can do this by default ..
-        CC = os.environ.get("CC", None)
-        if CC is not None:
-            extra_compile_args["nvcc"].append("-ccbin={}".format(CC))
+    print("Adding CUDA csrc to build")
+    print("CUDA ARCH {}".format(os.getenv("TORCH_CUDA_ARCH_LIST")))
+    extension = CUDAExtension
+    sources += source_cuda
+    define_macros += [('WITH_CUDA', None)]
+    extra_compile_args["nvcc"] = [
+        "-DCUDA_HAS_FP16=1",
+        "-D__CUDA_NO_HALF_OPERATORS__",
+        "-D__CUDA_NO_HALF_CONVERSIONS__",
+        "-D__CUDA_NO_HALF2_OPERATORS__",
+    ]
+    
+    # It's better if pytorch can do this by default ..
+    CC = os.environ.get("CC", None)
+    if CC is not None:
+        extra_compile_args["nvcc"].append("-ccbin={}".format(CC))
 
     sources = [os.path.join(extensions_dir, s) for s in sources]
     include_dirs = [str(extensions_dir)]
