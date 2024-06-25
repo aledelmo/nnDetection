@@ -80,8 +80,12 @@ dev = [
 ]
 
 [build-system]
-requires = ["setuptools>=67.8.0"]
+requires = ["poetry-core", "setuptools>=67.8.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.poetry.build] 
+script = "build.py" 
+generate-setup-file = true 
 
 [tool.codespell]
 skip = '.git,*.pdf,*.svg'
