@@ -373,43 +373,15 @@ class BaseRetinaNet(AbstractModel):
             keep = box_utils.remove_small_boxes(boxes, min_size=self.remove_small_boxes)
             boxes, probs, labels = boxes[keep], probs[keep], labels[keep]
 
-        print('boxes')
-        print(boxes.shape)
-        print(boxes)
-        print('probs')
-        print(probs.shape)
-        print(probs)
-        print('labels')
-        print(labels.shape)
-        print(labels)
-        print('nms_tresh')
-        print(self.nms_thresh)
-
         box_converter = ConvertBoxMode(src_mode="xyxyzz", dst_mode="xyzxyz")
         boxes = box_converter(boxes)
 
-        print('----------------------- Standard boxes ----------------------------')
-        print('boxes')
-        print(boxes.shape)
-        print(boxes)
-        print('probs')
-        print(probs.shape)
-        print(probs)
-        print('labels')
-        print(labels.shape)
-        print(labels)
-        print('nms_tresh')
-        print(self.nms_thresh)
-
-
         keep = batched_nms(boxes, probs, labels, self.nms_thresh)
+        boxes, probs, labels = boxes[keep], probs[keep], labels[keep]
 
         box_converter_back = ConvertBoxMode(src_mode="xyzxyz", dst_mode="xyxyzz")
         boxes = box_converter_back(boxes)
 
-        print('kept:')
-        print(boxes)
-        
         if self.detections_per_img is not None:
             keep = keep[:self.detections_per_img]
         return boxes[keep], probs[keep], labels[keep]
