@@ -385,7 +385,7 @@ class BaseRetinaNet(AbstractModel):
         print('nms_tresh')
         print(self.nms_thresh)
 
-        box_converter = ConvertBoxMode(src_mode="xxyyzz", dst_mode="xyzxyz")
+        box_converter = ConvertBoxMode(src_mode="xyxyzz", dst_mode="xyzxyz")
         boxes = box_converter(boxes)
 
         print('----------------------- Standard boxes ----------------------------')
@@ -404,7 +404,7 @@ class BaseRetinaNet(AbstractModel):
 
         keep = batched_nms(boxes, probs, labels, self.nms_thresh)
 
-        box_converter_back = ConvertBoxMode(src_mode="xyzxyz", dst_mode="xxyyzz")
+        box_converter_back = ConvertBoxMode(src_mode="xyzxyz", dst_mode="xyxyzz")
         boxes = box_converter_back(boxes)
 
         print('kept:')
