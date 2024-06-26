@@ -372,6 +372,17 @@ class BaseRetinaNet(AbstractModel):
             keep = box_utils.remove_small_boxes(boxes, min_size=self.remove_small_boxes)
             boxes, probs, labels = boxes[keep], probs[keep], labels[keep]
 
+        print('boxes')
+        print(boxes.shape)
+        print(boxes)
+        print('probs')
+        print(probs.shape)
+        print(probs)
+        print('labels')
+        print(labels.shape)
+        print(labels)
+        print('nms_tresh')
+        print(self.nms_thresh)
         keep = batched_nms(boxes, probs, labels, self.nms_thresh)
         
         if self.detections_per_img is not None:
