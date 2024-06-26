@@ -21,6 +21,7 @@ from nndet.arch.heads.segmenter import SegmenterType
 from nndet.arch.heads.comb import HeadType
 from nndet.core.boxes.anchors import AnchorGeneratorType
 from monai.data.box_utils import batched_nms
+from monai.apps.detection.transforms.array import ConvertBoxMode
 
 class BaseRetinaNet(AbstractModel):
     def __init__(self,
@@ -383,7 +384,31 @@ class BaseRetinaNet(AbstractModel):
         print(labels)
         print('nms_tresh')
         print(self.nms_thresh)
+
+        box_converter = ConvertBoxMode(src_mode="xxyyzz", dst_mode="xyzxyz")
+        boxes = box_converter(boxes)
+
+        print('----------------------- Standard boxes ----------------------------')
+        print('boxes')
+        print(boxes.shape)
+        print(boxes)
+        print('probs')
+        print(probs.shape)
+        print(probs)
+        print('labels')
+        print(labels.shape)
+        print(labels)
+        print('nms_tresh')
+        print(self.nms_thresh)
+
+
         keep = batched_nms(boxes, probs, labels, self.nms_thresh)
+
+        box_converter_back = ConvertBoxMode(src_mode="xyzxyz", dst_mode="xxyyzz")
+        boxes = box_converter_back(boxes)
+
+        print('kept:')
+        print(boxes)
         
         if self.detections_per_img is not None:
             keep = keep[:self.detections_per_img]
