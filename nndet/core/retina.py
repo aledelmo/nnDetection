@@ -351,7 +351,12 @@ class BaseRetinaNet(AbstractModel):
             Tensor: final class label [R]
         """
         assert boxes.shape[0] == probs.shape[0]
+
+        print(probs.get_device())
+
         boxes = box_utils.clip_boxes_to_image_(boxes, image_shape)
+        boxes = boxes.to('cpu')
+        probs = probs.to('cpu')
         probs = probs.flatten()
         print('-----------------------------------------------------------------')
         print(self.score_thresh)
@@ -370,6 +375,7 @@ class BaseRetinaNet(AbstractModel):
         print('?????????????????????????????????????????????????????')
         print(idx)
         print(idx.shape)
+        print(idx.min(), idx.max())
         if self.score_thresh is not None:
             try:
                 keep_idxs = probs > self.score_thresh
