@@ -353,7 +353,10 @@ class BaseRetinaNet(AbstractModel):
         assert boxes.shape[0] == probs.shape[0]
         boxes = box_utils.clip_boxes_to_image_(boxes, image_shape)
         probs = probs.flatten()
-
+        print('-----------------------------------------------------------------')
+        print(self.score_thresh)
+        print(probs)
+        print(probs.shape)
         if self.topk_candidates is not None:
             num_topk = min(self.topk_candidates, boxes.size(0))
             probs, idx = probs.sort(descending=True)
@@ -361,9 +364,10 @@ class BaseRetinaNet(AbstractModel):
         else:
             idx = torch.arange(probs.numel())
 
-        print(self.score_thresh)
+        print('||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||')
         print(probs)
         print(probs.shape)
+        print('?????????????????????????????????????????????????????')
         print(idx)
         print(idx.shape)
         if self.score_thresh is not None:
