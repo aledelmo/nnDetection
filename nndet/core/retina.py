@@ -358,6 +358,9 @@ class BaseRetinaNet(AbstractModel):
         boxes = boxes.to('cpu')
         probs = probs.to('cpu')
         probs = probs.flatten()
+
+        probs = probs[torch.isfinite(probs)]
+        boxes = boxes[torch.isfinite(probs), :]
         print('-----------------------------------------------------------------')
         print(self.score_thresh)
         print(probs)
@@ -396,13 +399,19 @@ class BaseRetinaNet(AbstractModel):
         boxes = box_converter(boxes)
 
         keep = batched_nms(boxes, probs, labels, self.nms_thresh)
-        boxes, probs, labels = boxes[keep], probs[keep], labels[keep]
+        # boxes, probs, labels = boxes[keep], probs[keep], labels[keep]
 
         box_converter_back = ConvertBoxMode(src_mode="xyzxyz", dst_mode="xyxyzz")
         boxes = box_converter_back(boxes)
 
         if self.detections_per_img is not None:
             keep = keep[:self.detections_per_img]
+
+        print('ciao')
+        print(boxes.shape)
+        print(probs.shape)
+        print(labels.shape)
+        print(keep.min(), keep.max())
         return boxes[keep], probs[keep], labels[keep]
 
     # @torch.no_grad()
