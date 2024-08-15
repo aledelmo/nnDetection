@@ -352,19 +352,11 @@ class BaseRetinaNet(AbstractModel):
         """
         assert boxes.shape[0] == probs.shape[0]
 
-        print(probs.get_device())
-
         boxes = box_utils.clip_boxes_to_image_(boxes, image_shape)
         boxes = boxes.to('cpu')
         probs = probs.to('cpu')
         probs = probs.flatten()
 
-        probs = probs[torch.isfinite(probs)]
-        boxes = boxes[torch.isfinite(probs), :]
-        print('-----------------------------------------------------------------')
-        print(self.score_thresh)
-        print(probs)
-        print(probs.shape)
         if self.topk_candidates is not None:
             num_topk = min(self.topk_candidates, boxes.size(0))
             probs, idx = probs.sort(descending=True)
@@ -372,17 +364,9 @@ class BaseRetinaNet(AbstractModel):
         else:
             idx = torch.arange(probs.numel())
 
-        print('||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||')
-        print(probs)
-        print(probs.shape)
-        print('?????????????????????????????????????????????????????')
-        print(idx)
-        print(idx.shape)
-        print(idx.min(), idx.max())
         if self.score_thresh is not None:
             try:
                 keep_idxs = probs > self.score_thresh
-                print(keep_idxs)
                 probs, idx = probs[keep_idxs], idx[keep_idxs]
             except:
                 pass
@@ -407,11 +391,6 @@ class BaseRetinaNet(AbstractModel):
         if self.detections_per_img is not None:
             keep = keep[:self.detections_per_img]
 
-        print('ciao')
-        print(boxes.shape)
-        print(probs.shape)
-        print(labels.shape)
-        print(keep.min(), keep.max())
         return boxes[keep], probs[keep], labels[keep]
 
     # @torch.no_grad()
