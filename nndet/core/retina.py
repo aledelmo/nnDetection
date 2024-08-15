@@ -361,9 +361,18 @@ class BaseRetinaNet(AbstractModel):
         else:
             idx = torch.arange(probs.numel())
 
+        print(self.score_thresh)
+        print(probs)
+        print(probs.shape)
+        print(idx)
+        print(idx.shape)
         if self.score_thresh is not None:
-            keep_idxs = probs > self.score_thresh
-            probs, idx = probs[keep_idxs], idx[keep_idxs]
+            try:
+                keep_idxs = probs > self.score_thresh
+                print(keep_idxs)
+                probs, idx = probs[keep_idxs], idx[keep_idxs]
+            except:
+                pass
 
         anchor_idxs = torch.div(idx, self.num_foreground_classes, rounding_mode="floor")
         labels = idx % self.num_foreground_classes
